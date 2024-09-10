@@ -1,6 +1,9 @@
-name: Bootstrap issues
+name: Initialize Repository
 on:
-  create:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 permissions:
   issues: write 
 jobs:
