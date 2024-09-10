@@ -1,14 +1,26 @@
-name: Initialize Repository
+name: Bootstrap issues
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '* * * * *'  # Runs every minute initially
+
 permissions:
-  issues: write 
+  issues: write
+
 jobs:
   create-issues:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: jayalfredprufrock/create-issues-action@v1.2.1
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Create issues
+        uses: jayalfredprufrock/create-issues-action@v1.2.1
+      - name: Remove schedule from workflow
+        run: |
+          echo "Removing schedule from workflow"
+          sed -i '/schedule:/,/cron:/d' .github/workflows/main.yml
+      - name: Commit and push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
