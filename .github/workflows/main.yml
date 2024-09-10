@@ -1,0 +1,11 @@
+name: Bootstrap issues
+on:
+  create:
+permissions:
+  issues: write 
+jobs:
+  create-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jayalfredprufrock/create-issues-action@v1.2.1
